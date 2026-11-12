@@ -1,0 +1,42 @@
+{
+  "policy_version": "synthetic-v1",
+  "exchange_examples": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/session",
+        "headers": {
+          "Authorization": "Bearer SYNTHETIC-NOT-A-SECRET"
+        }
+      },
+      "response": {
+        "session": "SYNTHETIC-SESSION-A"
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/items?cursor=SYNTHETIC-CURSOR-A",
+        "headers": {
+          "X-Session": "SYNTHETIC-SESSION-A"
+        }
+      },
+      "response": {
+        "items": [
+          {
+            "id": "SYN-1",
+            "contact": "fictional@example.invalid"
+          }
+        ],
+        "next": null
+      }
+    }
+  ],
+  "scenarios": [
+    "session-values-change",
+    "details-out-of-order",
+    "duplicate-retry",
+    "unrecognised-sensitive-field",
+    "partial-recording"
+  ]
+}

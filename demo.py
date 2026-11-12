@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from service import authorized
+from synthetic_source import SyntheticSource
 
 
 def run():
@@ -9,7 +10,13 @@ def run():
     checks = [authorized(grant, 'ledger', 'invoice', instant) for instant in [grant['starts_at'], grant['ends_at']]]
     assert checks == [True, False]
     assert not authorized(grant, 'ledger', 'profile', grant['starts_at'])
-    return {'valid_at_start_and_end': checks, 'race_events': [event['kind'] for event in fixture['events']]}
+    source = SyntheticSource(1)
+    session = source.request('POST', '/session')['json']['session']
+    page = source.request('GET', '/items', {'X-Session': session})
+    assert page['status'] == 200
+    final = source.request('GET', '/items?cursor=' + page['json']['next'], {'X-Session': session})
+    assert final['json']['next'] is None
+    return {'recording_authorization_boundaries': checks, 'synthetic_session': session, 'page': page, 'final_page': final}
 
 
 if __name__ == '__main__':
