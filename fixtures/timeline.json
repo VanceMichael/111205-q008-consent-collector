@@ -1,0 +1,48 @@
+{
+  "grant": {
+    "id": "grant-1",
+    "subject": "synthetic-person",
+    "sources": [
+      "ledger"
+    ],
+    "categories": [
+      "invoice"
+    ],
+    "starts_at": "2026-11-11T00:00:00+08:00",
+    "ends_at": "2026-11-12T00:00:00+08:00"
+  },
+  "events": [
+    {
+      "at": "2026-11-11T08:00:00+08:00",
+      "kind": "request-start",
+      "intent": "i1"
+    },
+    {
+      "at": "2026-11-11T08:00:01+08:00",
+      "kind": "revoke",
+      "grant": "grant-1"
+    },
+    {
+      "at": "2026-11-11T08:00:02+08:00",
+      "kind": "response",
+      "intent": "i1",
+      "record": {
+        "id": "synthetic-1"
+      }
+    },
+    {
+      "at": "2026-11-11T08:00:03+08:00",
+      "kind": "retry",
+      "intent": "i1"
+    }
+  ],
+  "policy": {
+    "raw_retention_days": 0,
+    "evidence_fields": [
+      "intent",
+      "grant",
+      "at",
+      "decision"
+    ]
+  }
+}
